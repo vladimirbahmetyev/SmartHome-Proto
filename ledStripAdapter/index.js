@@ -57,6 +57,10 @@ device.setWhiteMode = function (){
     device.setWithoutWaiting({dps:21, set: 'white'});
 }
 
+device.setWhiteBrightness = function (brightness= 1000) {
+    device.setWithoutWaiting({dps:22, set: brightness});
+}
+
 device.setColourMode = function (){
     device.setWithoutWaiting({dps:21, set: 'colour'});
 }

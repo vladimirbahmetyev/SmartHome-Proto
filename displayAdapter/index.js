@@ -28,9 +28,10 @@ const calcAvRGB = (buffer) => {
 const scaleRbgToFull = (avRgb) => {
     const result = []
     const maxVal = Math.max(avRgb['r'],avRgb['g'],avRgb['b'] )
-    result.push(Math.round(avRgb['r']/maxVal * 255));
-    result.push(Math.round(avRgb['g']/maxVal * 255));
-    result.push(Math.round(avRgb['b']/maxVal * 255));
+    const scaleFactor = Math.min(255 / maxVal , 3)
+    result.push(Math.round(avRgb['r'] * scaleFactor));
+    result.push(Math.round(avRgb['g'] * scaleFactor));
+    result.push(Math.round(avRgb['b'] * scaleFactor));
     return result
 }
 
@@ -42,6 +43,6 @@ export async function getAvColor() {
         .toBuffer({resolveWithObject: true});
     const avRgb = calcAvRGB(data)
     const finalColor = scaleRbgToFull(avRgb);
-    return finalColor
+    return finalColor;
 }
 
