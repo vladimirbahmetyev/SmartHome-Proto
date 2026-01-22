@@ -1,0 +1,15 @@
+{
+  "name": "smart-home",
+  "version": "1.0.0",
+  "description": "Project for custom smart home",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vladimir Bakhmetev",
+  "license": "ISC",
+  "dependencies": {
+    "rgb-hsv": "^1.0.0",
+    "tuyapi": "^7.7.1"
+  }
+}
