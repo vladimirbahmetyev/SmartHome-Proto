@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "description": "Project for custom smart home",
   "main": "ledStripAdapter/index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Vladimir Bakhmetev",
   "license": "ISC",
   "dependencies": {
+    "jimp": "^1.6.0",
     "rgb-hsv": "^1.0.0",
+    "screenshot-desktop": "^1.15.3",
     "tuyapi": "^7.7.1"
   }
 }
