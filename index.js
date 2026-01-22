@@ -9,7 +9,7 @@ setInterval(async () => {
     getAvColor().then(color => {
         const saturation = rgb(...color)[1]
         const brightness = rgb(...color)[2];
-        if(saturation < 15){
+        if(saturation < 10){
             device.setWhiteMode()
             device.setWhiteBrightness(brightness * 10)
         } else {
