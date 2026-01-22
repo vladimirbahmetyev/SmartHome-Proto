@@ -1,20 +1,22 @@
-import screenshot from 'screenshot-desktop'
-import {Jimp} from "jimp";
-import {intToRGBA} from '@jimp/utils'
+
+import robot from "robotjs";
 import sharp from 'sharp';
+import {DesktopDuplication} from 'windows-desktop-duplication';
 
 const selectionWidth = 960
 const selectionHeight = 540
 const width = 3840
 const mult = 1920 * 1080
+let dd = new DesktopDuplication(0); // экран 0
+dd.initialize();
 
 const calcAvRGB = (buffer) => {
     const rgbAcc = {r: 0, g: 0, b: 0};
     for (let i = 0; i < selectionWidth - 1; i++) {
         for (let j = 0; j < selectionHeight - 1; j++) {
-            rgbAcc['r'] = rgbAcc['r'] + buffer[(j * width + i) * 3];
+            rgbAcc['r'] = rgbAcc['r'] + buffer[(j * width + i) * 3 + 2];
             rgbAcc['g'] = rgbAcc['g']  + buffer[(j * width + i) * 3 + 1];
-            rgbAcc['b'] = rgbAcc['b'] + buffer[(j * width + i) * 3 + 2];
+            rgbAcc['b'] = rgbAcc['b'] + buffer[(j * width + i) * 3];
         }
     }
     rgbAcc['r'] = Math.round(rgbAcc['r'] / mult);
@@ -33,8 +35,11 @@ const scaleRbgToFull = (avRgb) => {
 }
 
 export async function getAvColor() {
-    const imgBuffer = await screenshot({screen: 0});
-    const {data, info} = await sharp(imgBuffer).raw().toBuffer({resolveWithObject: true});
+    const { image } = robot.screen.capture(0, 0, 3840, 2160);
+    const {data, info} = await sharp(image, {raw:{width:3840, height:2160, channels: 4}})
+        .removeAlpha()
+        .raw()
+        .toBuffer({resolveWithObject: true});
     const avRgb = calcAvRGB(data)
     const finalColor = scaleRbgToFull(avRgb);
     return finalColor

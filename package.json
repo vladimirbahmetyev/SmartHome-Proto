@@ -10,10 +10,13 @@
   "author": "Vladimir Bakhmetev",
   "license": "ISC",
   "dependencies": {
+    "desktop-capture": "^0.1.1",
     "jimp": "^1.6.0",
     "rgb-hsv": "^1.0.0",
+    "robotjs": "^0.6.0",
     "screenshot-desktop": "^1.15.3",
     "sharp": "^0.34.5",
-    "tuyapi": "^7.7.1"
+    "tuyapi": "^7.7.1",
+    "windows-desktop-duplication": "^1.0.3"
   }
 }
