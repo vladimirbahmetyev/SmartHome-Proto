@@ -69,9 +69,18 @@ async function sleep(ms) {
     await new Promise(r => setTimeout(r, ms));
 }
 
-(async () => {
+// (async () => {
+//     await device.find();
+//     await device.connect();
+//     setTimeout(() => device.disconnect(), 5000)
+// })();
+
+export async function getDevice(){
     await device.find();
     await device.connect();
+    return device;
+}
 
-    setTimeout(() => device.disconnect(), 5000)
-})();
+// const deviceEx = await getDevice()
+// deviceEx.turnOn()
+// deviceEx.setWhiteMode()
