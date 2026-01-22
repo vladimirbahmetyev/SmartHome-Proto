@@ -8,7 +8,7 @@ import fs from 'fs';
 // 21 - mode white/colour
 // 24 color - hsv-hex
 
-const raw = fs.readFileSync('./secrets.json', 'utf8');
+const raw = fs.readFileSync('./ledStripAdapter/secrets.json', 'utf8');
 const secrets = JSON.parse(raw);
 
 const device = new TuyAPI({
