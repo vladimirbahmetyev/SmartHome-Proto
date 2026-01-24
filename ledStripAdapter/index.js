@@ -31,15 +31,15 @@ function rgbToDps (r, g, b) {
 }
 
 
-devices.forEach(device => {
-    device.on('error', err => {
-        console.log('Device error:', err);
-    });
-
-    device.on('data', data => {
-        console.log('Data from device:', data);
-    });
-})
+// devices.forEach(device => {
+//     device.on('error', err => {
+//         console.log('Device error:', err);
+//     });
+//
+//     device.on('data', data => {
+//         console.log('Data from device:', data);
+//     });
+// })
 
 deviceController.setWithoutWaiting = async function(args){
     devices.forEach(device => {
@@ -49,40 +49,27 @@ deviceController.setWithoutWaiting = async function(args){
 }
 
 deviceController.turnOn = function(){
-    devices.forEach(device => {
-        deviceController.setWithoutWaiting({dps:20, set: true});
-    })
-
+    deviceController.setWithoutWaiting({dps:20, set: true});
 }
 
 deviceController.turnOff = function(){
-    devices.forEach(device => {
-        deviceController.setWithoutWaiting({dps:20, set: false});
-    })
+    deviceController.setWithoutWaiting({dps:20, set: false});
 }
 
 deviceController.setWhiteMode = function (){
-    devices.forEach(device => {
-        deviceController.setWithoutWaiting({dps:21, set: 'white'});
-    })
+    deviceController.setWithoutWaiting({dps:21, set: 'white'});
 }
 
 deviceController.setWhiteBrightness = function (brightness= 1000) {
-    devices.forEach(device => {
-        deviceController.setWithoutWaiting({dps:22, set: brightness});
-    })
+    deviceController.setWithoutWaiting({dps:22, set: brightness});
 }
 
 deviceController.setColourMode = function (){
-    devices.forEach(device => {
-        deviceController.setWithoutWaiting({dps:21, set: 'colour'});
-    })
+    deviceController.setWithoutWaiting({dps:21, set: 'colour'});
 }
 
 deviceController.setColour = function (r, g, b){
-    devices.forEach(device => {
-        deviceController.setWithoutWaiting({dps:24, set: rgbToDps(r, g, b)});
-    })
+    deviceController.setWithoutWaiting({dps:24, set: rgbToDps(r, g, b)});
 }
 
 async function sleep(ms) {
@@ -90,7 +77,7 @@ async function sleep(ms) {
 }
 
 export async function getDevice(){
-    await Promise.all([devices.map(device => device.find())]);
-    await Promise.all([devices.map(device => device.connect())]);
+    await Promise.all(devices.map(device => device.find()));
+    await Promise.all(devices.map(device => device.connect()));
     return deviceController;
 }
