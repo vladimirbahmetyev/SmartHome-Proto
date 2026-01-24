@@ -31,15 +31,15 @@ function rgbToDps (r, g, b) {
 }
 
 
-// devices.forEach(device => {
-//     device.on('error', err => {
-//         console.log('Device error:', err);
-//     });
-//
-//     device.on('data', data => {
-//         console.log('Data from device:', data);
-//     });
-// })
+devices.forEach(device => {
+    device.on('error', err => {
+        console.log('Device error:', err);
+    });
+
+    device.on('data', data => {
+        console.log('Data from device:', data);
+    });
+})
 
 deviceController.setWithoutWaiting = async function(args){
     devices.forEach(device => {
