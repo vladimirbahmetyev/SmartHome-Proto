@@ -77,7 +77,9 @@ async function sleep(ms) {
 }
 
 export async function getDevice(){
-    await Promise.all(devices.map(device => device.find()));
-    await Promise.all(devices.map(device => device.connect()));
+    for(let device of devices){
+        await device.find()
+        await device.connect()
+    }
     return deviceController;
 }
