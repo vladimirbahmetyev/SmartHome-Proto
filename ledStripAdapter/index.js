@@ -9,12 +9,10 @@ import fs from 'fs';
 // 24 color - hsv-hex
 
 const raw = fs.readFileSync('./ledStripAdapter/secrets.json', 'utf8');
-const secrets = JSON.parse(raw);
+const secrets = JSON.parse(raw); //Array of secrets
 
-const device = new TuyAPI({
-    ...secrets,
-    version: 3.3
-});
+const devices = secrets.map(secret => new TuyAPI({...secret, version: 3.3}))
+const deviceController = {}
 
 function hsvToTuyaDPS24(h, s, v) {
     const hue = h;
@@ -33,40 +31,58 @@ function rgbToDps (r, g, b) {
 }
 
 
-device.on('error', err => {
-    console.log('Device error:', err);
-});
+devices.forEach(device => {
+    device.on('error', err => {
+        console.log('Device error:', err);
+    });
 
-device.on('data', data => {
-    console.log('Data from device:', data);
-});
+    device.on('data', data => {
+        console.log('Data from device:', data);
+    });
+})
 
-device.setWithoutWaiting = async function(args){
-    await this.set({...args, shouldWaitForResponse: false});
+deviceController.setWithoutWaiting = async function(args){
+    devices.forEach(device => {
+        device.set({...args, shouldWaitForResponse: false});
+    })
+
 }
 
-device.turnOn = function(){
-    device.setWithoutWaiting({dps:20, set: true});
+deviceController.turnOn = function(){
+    devices.forEach(device => {
+        deviceController.setWithoutWaiting({dps:20, set: true});
+    })
+
 }
 
-device.turnOff = function(){
-    device.setWithoutWaiting({dps:20, set: false});
+deviceController.turnOff = function(){
+    devices.forEach(device => {
+        deviceController.setWithoutWaiting({dps:20, set: false});
+    })
 }
 
-device.setWhiteMode = function (){
-    device.setWithoutWaiting({dps:21, set: 'white'});
+deviceController.setWhiteMode = function (){
+    devices.forEach(device => {
+        deviceController.setWithoutWaiting({dps:21, set: 'white'});
+    })
 }
 
-device.setWhiteBrightness = function (brightness= 1000) {
-    device.setWithoutWaiting({dps:22, set: brightness});
+deviceController.setWhiteBrightness = function (brightness= 1000) {
+    devices.forEach(device => {
+        deviceController.setWithoutWaiting({dps:22, set: brightness});
+    })
 }
 
-device.setColourMode = function (){
-    device.setWithoutWaiting({dps:21, set: 'colour'});
+deviceController.setColourMode = function (){
+    devices.forEach(device => {
+        deviceController.setWithoutWaiting({dps:21, set: 'colour'});
+    })
 }
 
-device.setColour = function (r, g, b){
-    device.setWithoutWaiting({dps:24, set: rgbToDps(r, g, b)});
+deviceController.setColour = function (r, g, b){
+    devices.forEach(device => {
+        deviceController.setWithoutWaiting({dps:24, set: rgbToDps(r, g, b)});
+    })
 }
 
 async function sleep(ms) {
@@ -74,7 +90,7 @@ async function sleep(ms) {
 }
 
 export async function getDevice(){
-    await device.find();
-    await device.connect();
-    return device;
+    await Promise.all([devices.map(device => device.find())]);
+    await Promise.all([devices.map(device => device.connect())]);
+    return deviceController;
 }
